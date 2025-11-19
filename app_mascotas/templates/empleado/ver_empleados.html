@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card card-soft p-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="text-pet-primary mb-0">
+      <i class="bi bi-person-badge me-2"></i>Empleados Registrados
+    </h4>
+    <a href="{% url 'agregar_empleado' %}" class="btn btn-primary">
+      <i class="bi bi-person-plus me-2"></i>Agregar Empleado
+    </a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Nombre Completo</th>
+          <th>Puesto</th>
+          <th>Especialidad</th>
+          <th>Teléfono</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in empleados %}
+        <tr>
+          <td>
+            <strong>{{ e.nombre }} {{ e.apepaterno }} {{ e.apematerno }}</strong>
+          </td>
+          <td>
+            <span class="badge bg-primary">{{ e.puesto|title }}</span>
+          </td>
+          <td>
+            {% if e.especialidad_mascotas %}
+              <span class="badge bg-pet-primary">{{ e.especialidad_mascotas|title }}</span>
+            {% else %}
+              <span class="text-muted">Sin especialidad</span>
+            {% endif %}
+          </td>
+          <td>{{ e.telefono }}</td>
+          <td class="text-center">
+            <div class="btn-group btn-group-sm" role="group">
+              <a href="{% url 'actualizar_empleado' e.id_empleado %}" class="btn btn-outline-warning" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a href="{% url 'borrar_empleado' e.id_empleado %}" class="btn btn-outline-danger" title="Eliminar">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center py-4 text-muted">
+            <i class="bi bi-person-x display-4 d-block mb-2"></i>
+            No hay empleados registrados
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-3 text-muted">
+    <small>Total de empleados: {{ empleados|length }}</small>
+  </div>
+</div>
+
+<style>
+.bg-pet-primary {
+  background-color: #2d8b4e !important;
+}
+</style>
+{% endblock %}

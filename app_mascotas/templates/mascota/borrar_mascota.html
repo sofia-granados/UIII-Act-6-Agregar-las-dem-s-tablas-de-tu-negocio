@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Mascota - PetShop{% endblock %}
+{% block content %}
+<div class="card card-soft p-4 text-center">
+  <h4 class="text-pet-primary mb-4">
+    <i class="bi bi-heartbreak me-2"></i>¿Eliminar Mascota?
+  </h4>
+  
+  <div class="alert alert-warning mb-4">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+  </div>
+
+  <div class="card bg-light p-3 mb-4">
+    <h5 class="mb-3">{{ mascota.nombre }}</h5>
+    <div class="row text-start">
+      <div class="col-md-6">
+        <strong><i class="bi bi-tag me-2"></i>Especie:</strong>
+        <p class="mb-2">{{ mascota.get_especie_display }}</p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-star me-2"></i>Raza:</strong>
+        <p class="mb-2">{{ mascota.raza|default:"No especificada" }}</p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-calendar me-2"></i>Edad:</strong>
+        <p class="mb-2">{{ mascota.edad }} años</p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-speedometer me-2"></i>Peso:</strong>
+        <p class="mb-2">{{ mascota.peso }} kg</p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-person me-2"></i>Propietario:</strong>
+        <p class="mb-2">{{ mascota.id_cliente_propietario.nombre }} {{ mascota.id_cliente_propietario.apepaterno }}</p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-person-badge me-2"></i>Cuidador:</strong>
+        <p class="mb-2">
+          {% if mascota.id_empleado_cuidador %}
+            {{ mascota.id_empleado_cuidador.nombre }} {{ mascota.id_empleado_cuidador.apepaterno }}
+          {% else %}
+            <span class="text-muted">No asignado</span>
+          {% endif %}
+        </p>
+      </div>
+      {% if mascota.enfermedades %}
+      <div class="col-12">
+        <strong><i class="bi bi-clipboard-pulse me-2"></i>Enfermedades:</strong>
+        <p class="mb-2">{{ mascota.enfermedades }}</p>
+      </div>
+      {% endif %}
+      {% if mascota.cuidados_especiales %}
+      <div class="col-12">
+        <strong><i class="bi bi-heart-pulse me-2"></i>Cuidados Especiales:</strong>
+        <p class="mb-2">{{ mascota.cuidados_especiales }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="d-flex justify-content-center gap-3">
+      <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash me-2"></i>Confirmar Eliminación
+      </button>
+      <a href="{% url 'ver_mascotas' %}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

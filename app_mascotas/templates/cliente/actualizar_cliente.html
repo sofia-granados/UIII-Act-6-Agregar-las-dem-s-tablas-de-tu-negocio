@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card card-soft p-4">
+  <h4 class="text-pet-primary mb-4">
+    <i class="bi bi-person-gear me-2"></i>Actualizar Cliente
+  </h4>
+  <form method="POST">
+    {% csrf_token %}
+    
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Nombre:</label>
+        <input type="text" name="nombre" class="form-control" value="{{ cliente.nombre }}" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Apellido Paterno:</label>
+        <input type="text" name="apepaterno" class="form-control" value="{{ cliente.apepaterno }}" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Apellido Materno:</label>
+        <input type="text" name="apematerno" class="form-control" value="{{ cliente.apematerno }}" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Teléfono:</label>
+        <input type="text" name="telefono" class="form-control" value="{{ cliente.telefono }}" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Correo Electrónico:</label>
+        <input type="email" name="correo_electronico" class="form-control" value="{{ cliente.correo_electronico }}" required>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Domicilio:</label>
+      <textarea name="domicilio" class="form-control" rows="3">{{ cliente.domicilio }}</textarea>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Tipo de Mascota Preferida:</label>
+        <select name="tipo_mascota_preferida" class="form-select">
+          <option value="">Seleccionar...</option>
+          <option value="perro" {% if cliente.tipo_mascota_preferida == 'perro' %}selected{% endif %}>Perro</option>
+          <option value="gato" {% if cliente.tipo_mascota_preferida == 'gato' %}selected{% endif %}>Gato</option>
+          <option value="ave" {% if cliente.tipo_mascota_preferida == 'ave' %}selected{% endif %}>Ave</option>
+          <option value="roedor" {% if cliente.tipo_mascota_preferida == 'roedor' %}selected{% endif %}>Roedor</option>
+          <option value="reptil" {% if cliente.tipo_mascota_preferida == 'reptil' %}selected{% endif %}>Reptil</option>
+          <option value="pez" {% if cliente.tipo_mascota_preferida == 'pez' %}selected{% endif %}>Pez</option>
+          <option value="otro" {% if cliente.tipo_mascota_preferida == 'otro' %}selected{% endif %}>Otro</option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Empleado de Atención:</label>
+        <select name="empleado_atencion" class="form-select">
+          <option value="">Sin empleado asignado</option>
+          {% for empleado in empleados %}
+            <option value="{{ empleado.id_empleado }}" {% if cliente.id_empleado_atencion.id_empleado == empleado.id_empleado %}selected{% endif %}>
+              {{ empleado.nombre }} {{ empleado.apepaterno }} - {{ empleado.puesto }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-circle me-2"></i>Actualizar Cliente
+      </button>
+      <a href="{% url 'ver_clientes' %}" class="btn btn-secondary">
+        <i class="bi bi-x-circle me-2"></i>Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

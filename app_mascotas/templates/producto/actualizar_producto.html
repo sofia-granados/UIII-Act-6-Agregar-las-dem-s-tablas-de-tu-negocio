@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Actualizar Producto - PetShop{% endblock %}
+
+{% block content %}
+<div class="card card-soft p-4">
+  <h4 class="text-pet-primary mb-4">
+    <i class="bi bi-bag-check me-2"></i>Actualizar Producto
+  </h4>
+
+  <form method="POST">
+    {% csrf_token %}
+    
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Nombre del Producto:</label>
+        <input type="text" name="nombre" class="form-control" value="{{ producto.nombre }}" required>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Precio:</label>
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input type="number" name="precio" step="0.01" min="0" class="form-control" value="{{ producto.precio }}" required>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Stock:</label>
+        <input type="number" name="stock" min="0" class="form-control" value="{{ producto.stock }}" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Categoría:</label>
+        <select name="categoria" class="form-select" required>
+          <option value="">Seleccionar categoría...</option>
+          <option value="alimento" {% if producto.categoria == 'alimento' %}selected{% endif %}>Alimento</option>
+          <option value="juguete" {% if producto.categoria == 'juguete' %}selected{% endif %}>Juguete</option>
+          <option value="accesorio" {% if producto.categoria == 'accesorio' %}selected{% endif %}>Accesorio</option>
+          <option value="higiene" {% if producto.categoria == 'higiene' %}selected{% endif %}>Higiene y Cuidado</option>
+          <option value="salud" {% if producto.categoria == 'salud' %}selected{% endif %}>Salud</option>
+          <option value="transporte" {% if producto.categoria == 'transporte' %}selected{% endif %}>Transporte</option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Tipo de Mascota:</label>
+        <select name="tipo_mascota" class="form-select" required>
+          <option value="">Seleccionar tipo...</option>
+          <option value="perro" {% if producto.tipo_mascota == 'perro' %}selected{% endif %}>Perro</option>
+          <option value="gato" {% if producto.tipo_mascota == 'gato' %}selected{% endif %}>Gato</option>
+          <option value="ave" {% if producto.tipo_mascota == 'ave' %}selected{% endif %}>Ave</option>
+          <option value="roedor" {% if producto.tipo_mascota == 'roedor' %}selected{% endif %}>Roedor</option>
+          <option value="reptil" {% if producto.tipo_mascota == 'reptil' %}selected{% endif %}>Reptil</option>
+          <option value="pez" {% if producto.tipo_mascota == 'pez' %}selected{% endif %}>Pez</option>
+          <option value="universal" {% if producto.tipo_mascota == 'universal' %}selected{% endif %}>Universal</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Garantía (meses):</label>
+        <input type="number" name="garantia_meses" min="0" class="form-control" value="{{ producto.garantia_meses }}">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Proveedor:</label>
+        <select name="proveedor" class="form-select">
+          <option value="">Seleccionar proveedor...</option>
+          {% for p in proveedores %}
+            <option value="{{ p.id_compañia }}" {% if producto.id_proveedor.id_compañia == p.id_compañia %}selected{% endif %}>
+              {{ p.compañia }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Descripción:</label>
+      <textarea name="descripcion" class="form-control" rows="3">{{ producto.descripcion }}</textarea>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-circle me-2"></i>Actualizar Producto
+      </button>
+      <a href="{% url 'ver_productos' %}" class="btn btn-secondary">
+        <i class="bi bi-x-circle me-2"></i>Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+
+<style>
+.input-group-text {
+  background-color: #e8f5e8;
+  border-color: #2d8b4e;
+  color: #2d8b4e;
+  font-weight: 500;
+}
+</style>
+{% endblock %}

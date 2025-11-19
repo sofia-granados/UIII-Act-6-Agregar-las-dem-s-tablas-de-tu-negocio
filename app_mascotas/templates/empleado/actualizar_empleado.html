@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card card-soft p-4">
+  <h4 class="text-pet-primary mb-4">
+    <i class="bi bi-person-gear me-2"></i>Actualizar Empleado
+  </h4>
+  <form method="POST">
+    {% csrf_token %}
+    
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Nombre:</label>
+        <input type="text" name="nombre" class="form-control" value="{{ empleado.nombre }}" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Apellido Paterno:</label>
+        <input type="text" name="apepaterno" class="form-control" value="{{ empleado.apepaterno }}" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Apellido Materno:</label>
+        <input type="text" name="apematerno" class="form-control" value="{{ empleado.apematerno }}" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Puesto:</label>
+        <select name="puesto" class="form-select" required>
+          <option value="">Seleccionar puesto...</option>
+          <option value="veterinario" {% if empleado.puesto == 'veterinario' %}selected{% endif %}>Veterinario</option>
+          <option value="asistente" {% if empleado.puesto == 'asistente' %}selected{% endif %}>Asistente de Tienda</option>
+          <option value="peluquero" {% if empleado.puesto == 'peluquero' %}selected{% endif %}>Peluquero Canino</option>
+          <option value="entrenador" {% if empleado.puesto == 'entrenador' %}selected{% endif %}>Entrenador</option>
+          <option value="gerente" {% if empleado.puesto == 'gerente' %}selected{% endif %}>Gerente</option>
+          <option value="cajero" {% if empleado.puesto == 'cajero' %}selected{% endif %}>Cajero</option>
+          <option value="almacenista" {% if empleado.puesto == 'almacenista' %}selected{% endif %}>Almacenista</option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Teléfono:</label>
+        <input type="text" name="telefono" class="form-control" value="{{ empleado.telefono }}" required>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Domicilio:</label>
+      <textarea name="domicilio" class="form-control" rows="3">{{ empleado.domicilio }}</textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Especialidad en Mascotas:</label>
+      <select name="especialidad_mascotas" class="form-select">
+        <option value="">Seleccionar especialidad...</option>
+        <option value="perros" {% if empleado.especialidad_mascotas == 'perros' %}selected{% endif %}>Perros</option>
+        <option value="gatos" {% if empleado.especialidad_mascotas == 'gatos' %}selected{% endif %}>Gatos</option>
+        <option value="aves" {% if empleado.especialidad_mascotas == 'aves' %}selected{% endif %}>Aves</option>
+        <option value="roedores" {% if empleado.especialidad_mascotas == 'roedores' %}selected{% endif %}>Roedores</option>
+        <option value="reptiles" {% if empleado.especialidad_mascotas == 'reptiles' %}selected{% endif %}>Reptiles</option>
+        <option value="peces" {% if empleado.especialidad_mascotas == 'peces' %}selected{% endif %}>Peces</option>
+        <option value="exoticos" {% if empleado.especialidad_mascotas == 'exoticos' %}selected{% endif %}>Animales Exóticos</option>
+        <option value="general" {% if empleado.especialidad_mascotas == 'general' %}selected{% endif %}>General</option>
+      </select>
+      <div class="form-text">Selecciona el tipo de mascotas en las que se especializa este empleado.</div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-circle me-2"></i>Actualizar Empleado
+      </button>
+      <a href="{% url 'ver_empleados' %}" class="btn btn-secondary">
+        <i class="bi bi-x-circle me-2"></i>Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

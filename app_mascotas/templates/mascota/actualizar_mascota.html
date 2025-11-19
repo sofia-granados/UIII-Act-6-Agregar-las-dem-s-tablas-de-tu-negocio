@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Actualizar Mascota - PetShop{% endblock %}
+
+{% block content %}
+<div class="card card-soft p-4">
+  <h4 class="text-pet-primary mb-4">
+    <i class="bi bi-heart-pulse me-2"></i>Actualizar Mascota
+  </h4>
+
+  <form method="POST">
+    {% csrf_token %}
+    
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Nombre de la Mascota:</label>
+        <input type="text" name="nombre" class="form-control" value="{{ mascota.nombre }}" required>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Edad (años):</label>
+        <input type="number" name="edad" min="0" max="30" class="form-control" value="{{ mascota.edad }}" required>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Peso (kg):</label>
+        <input type="number" name="peso" step="0.1" min="0" class="form-control" value="{{ mascota.peso }}" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Especie:</label>
+        <select name="especie" class="form-select" required>
+          <option value="">Seleccionar especie...</option>
+          <option value="perro" {% if mascota.especie == 'perro' %}selected{% endif %}>Perro</option>
+          <option value="gato" {% if mascota.especie == 'gato' %}selected{% endif %}>Gato</option>
+          <option value="ave" {% if mascota.especie == 'ave' %}selected{% endif %}>Ave</option>
+          <option value="roedor" {% if mascota.especie == 'roedor' %}selected{% endif %}>Roedor</option>
+          <option value="reptil" {% if mascota.especie == 'reptil' %}selected{% endif %}>Reptil</option>
+          <option value="pez" {% if mascota.especie == 'pez' %}selected{% endif %}>Pez</option>
+          <option value="otro" {% if mascota.especie == 'otro' %}selected{% endif %}>Otro</option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Raza:</label>
+        <input type="text" name="raza" class="form-control" value="{{ mascota.raza }}" placeholder="Ej: Labrador, Siames, etc.">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Propietario:</label>
+        <select name="cliente_propietario" class="form-select" required>
+          <option value="">Seleccionar propietario...</option>
+          {% for cliente in clientes %}
+            <option value="{{ cliente.id_cliente }}" {% if mascota.id_cliente_propietario.id_cliente == cliente.id_cliente %}selected{% endif %}>
+              {{ cliente.nombre }} {{ cliente.apepaterno }} {{ cliente.apematerno }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Cuidador Asignado:</label>
+        <select name="empleado_cuidador" class="form-select">
+          <option value="">Sin cuidador asignado</option>
+          {% for empleado in empleados %}
+            <option value="{{ empleado.id_empleado }}" {% if mascota.id_empleado_cuidador.id_empleado == empleado.id_empleado %}selected{% endif %}>
+              {{ empleado.nombre }} {{ empleado.apepaterno }} - {{ empleado.puesto }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Alimentación Recomendada:</label>
+      <input type="text" name="alimentacion_recomendada" class="form-control" value="{{ mascota.alimentacion_recomendada }}" placeholder="Ej: Croquetas premium, alimento húmedo, etc.">
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Enfermedades o Condiciones:</label>
+        <textarea name="enfermedades" class="form-control" rows="2" placeholder="Problemas de salud conocidos...">{{ mascota.enfermedades }}</textarea>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Cuidados Especiales:</label>
+        <textarea name="cuidados_especiales" class="form-control" rows="2" placeholder="Cuidados específicos requeridos...">{{ mascota.cuidados_especiales }}</textarea>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-circle me-2"></i>Actualizar Mascota
+      </button>
+      <a href="{% url 'ver_mascotas' %}" class="btn btn-secondary">
+        <i class="bi bi-x-circle me-2"></i>Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

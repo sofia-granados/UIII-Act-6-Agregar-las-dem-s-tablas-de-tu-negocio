@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card card-soft p-4 text-center">
+  <h4 class="text-pet-primary mb-4">
+    <i class="bi bi-person-x me-2"></i>¿Eliminar Empleado?
+  </h4>
+  
+  <div class="alert alert-warning mb-4">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+  </div>
+
+  <div class="card bg-light p-3 mb-4">
+    <h5 class="mb-3">{{ empleado.nombre }} {{ empleado.apepaterno }} {{ empleado.apematerno }}</h5>
+    <div class="row text-start">
+      <div class="col-md-6">
+        <strong><i class="bi bi-briefcase me-2"></i>Puesto:</strong>
+        <p class="mb-2">{{ empleado.puesto|title }}</p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-telephone me-2"></i>Teléfono:</strong>
+        <p class="mb-2">{{ empleado.telefono }}</p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-star me-2"></i>Especialidad:</strong>
+        <p class="mb-2">
+          {% if empleado.especialidad_mascotas %}
+            {{ empleado.especialidad_mascotas|title }}
+          {% else %}
+            <span class="text-muted">No especificada</span>
+          {% endif %}
+        </p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-house me-2"></i>Domicilio:</strong>
+        <p class="mb-2">{{ empleado.domicilio|default:"No especificado" }}</p>
+      </div>
+    </div>
+  </div>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="d-flex justify-content-center gap-3">
+      <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash me-2"></i>Confirmar Eliminación
+      </button>
+      <a href="{% url 'ver_empleados' %}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

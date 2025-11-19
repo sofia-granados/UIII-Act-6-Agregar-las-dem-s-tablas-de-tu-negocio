@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Inicio - PetShop{% endblock %}
+{% block content %}
+
+<div class="row">
+  <!-- Columna izquierda -->
+  <div class="col-md-8">
+    <div class="card card-soft p-4 mb-4">
+      <h4 class="text-pet-primary">
+        <i class="bi bi-heart-pulse me-2"></i>Bienvenido al Sistema de PetShop
+      </h4>
+      <p class="lead">
+        Administra las <strong>mascotas</strong>, <strong>productos</strong> y <strong>clientes</strong> de tu tienda de mascotas.
+        Consulta la información general del sistema a continuación:
+      </p>
+
+      <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+          <div class="card stats-card p-3 text-center">
+            <i class="bi bi-heart-fill text-pet-primary fs-1"></i>
+            <h5 class="mt-2">{{ total_mascotas }}</h5>
+            <small class="text-muted">Mascotas Registradas</small>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card stats-card p-3 text-center">
+            <i class="bi bi-bag-fill text-pet-primary fs-1"></i>
+            <h5 class="mt-2">{{ total_productos }}</h5>
+            <small class="text-muted">Productos en Stock</small>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card stats-card p-3 text-center">
+            <i class="bi bi-people-fill text-pet-primary fs-1"></i>
+            <h5 class="mt-2">{{ total_clientes }}</h5>
+            <small class="text-muted">Clientes Felices</small>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card stats-card p-3 text-center">
+            <i class="bi bi-person-badge-fill text-pet-primary fs-1"></i>
+            <h5 class="mt-2">{{ total_empleados }}</h5>
+            <small class="text-muted">Empleados</small>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card stats-card p-3 text-center">
+            <i class="bi bi-truck text-pet-primary fs-1"></i>
+            <h5 class="mt-2">{{ total_proveedores }}</h5>
+            <small class="text-muted">Proveedores</small>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card stats-card p-3 text-center">
+            <i class="bi bi-cash-coin text-pet-primary fs-1"></i>
+            <h5 class="mt-2">{{ total_ventas }}</h5>
+            <small class="text-muted">Ventas Realizadas</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Imagen decorativa -->
+    <div class="card card-soft overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?q=80&w=1200&auto=format&fit=crop"
+           alt="Tienda de Mascotas"
+           class="img-fluid rounded">
+      <div class="card-img-overlay d-flex align-items-end">
+        <div class="bg-dark bg-opacity-50 text-white p-3 rounded">
+          <h5>Donde las mascotas encuentran su hogar feliz</h5>
+          <small>Cuidamos de ellos como si fueran nuestros</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Columna derecha -->
+  <div class="col-md-4">
+    <div class="card card-soft p-3 mb-4">
+      <h5 class="text-pet-primary">
+        <i class="bi bi-heart me-2"></i>Últimas Mascotas
+      </h5>
+      <ul class="list-group">
+        {% for m in mascotas %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{{ m.nombre }}</strong>
+              <br>
+              <small class="text-muted">{{ m.especie }} • {{ m.raza }}</small>
+            </div>
+            <span class="badge bg-pet-primary rounded-pill">{{ m.edad }} años</span>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">No hay mascotas registradas.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="card card-soft p-3 mb-4">
+      <h5 class="text-pet-primary">
+        <i class="bi bi-bag me-2"></i>Últimos Productos
+      </h5>
+      <ul class="list-group">
+        {% for p in productos %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{{ p.nombre }}</strong>
+              <br>
+              <small class="text-muted">{{ p.get_tipo_mascota_display }}</small>
+            </div>
+            <span class="badge bg-success rounded-pill">${{ p.precio }}</span>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">No hay productos registrados.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="card card-soft p-3 mb-4">
+      <h5 class="text-pet-primary">
+        <i class="bi bi-truck me-2"></i>Últimos Proveedores
+      </h5>
+      <ul class="list-group">
+        {% for pr in proveedores %}
+          <li class="list-group-item">
+            <strong>{{ pr.compañia }}</strong>
+            <br>
+            <small class="text-muted">{{ pr.especialidad_productos }}</small>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">No hay proveedores registrados.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="card card-soft p-3 mb-4">
+      <h5 class="text-pet-primary">
+        <i class="bi bi-people me-2"></i>Últimos Clientes
+      </h5>
+      <ul class="list-group">
+        {% for cl in clientes %}
+          <li class="list-group-item">
+            <strong>{{ cl.nombre }} {{ cl.apepaterno }}</strong>
+            <br>
+            <small class="text-muted">{{ cl.tipo_mascota_preferida }}</small>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">No hay clientes registrados.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="card card-soft p-3">
+      <h5 class="text-pet-primary">
+        <i class="bi bi-cash-coin me-2"></i>Últimas Ventas
+      </h5>
+      <ul class="list-group">
+        {% for v in ventas %}
+          <li class="list-group-item">
+            <strong>Venta #{{ v.id_venta }}</strong>
+            <br>
+            <small class="text-muted">{{ v.fecha_venta|date:"d/m/Y" }} • ${{ v.total }}</small>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">No hay ventas registradas.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

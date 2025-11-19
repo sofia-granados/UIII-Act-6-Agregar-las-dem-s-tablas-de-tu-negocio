@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Actualizar Proveedor - PetShop{% endblock %}
+
+{% block content %}
+<div class="card card-soft p-4">
+  <h4 class="text-pet-primary mb-4">
+    <i class="bi bi-truck me-2"></i>Actualizar Proveedor
+  </h4>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Compañía:</label>
+        <input type="text" name="compañia" value="{{ proveedor.compañia }}" class="form-control" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Teléfono:</label>
+        <input type="text" name="telefono" value="{{ proveedor.telefono }}" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Tiempo de Entrega (días):</label>
+        <input type="number" name="tiempo_entrega_dias" value="{{ proveedor.tiempo_entrega_dias }}" class="form-control" min="1" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Especialidad en Productos:</label>
+        <select name="especialidad_productos" class="form-select">
+          <option value="">Seleccionar especialidad...</option>
+          <option value="alimentos" {% if proveedor.especialidad_productos == 'alimentos' %}selected{% endif %}>Alimentos</option>
+          <option value="juguetes" {% if proveedor.especialidad_productos == 'juguetes' %}selected{% endif %}>Juguetes</option>
+          <option value="accesorios" {% if proveedor.especialidad_productos == 'accesorios' %}selected{% endif %}>Accesorios</option>
+          <option value="higiene" {% if proveedor.especialidad_productos == 'higiene' %}selected{% endif %}>Productos de Higiene</option>
+          <option value="medicamentos" {% if proveedor.especialidad_productos == 'medicamentos' %}selected{% endif %}>Medicamentos</option>
+          <option value="transporte" {% if proveedor.especialidad_productos == 'transporte' %}selected{% endif %}>Transporte y Jaulas</option>
+          <option value="general" {% if proveedor.especialidad_productos == 'general' %}selected{% endif %}>Productos Generales</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Licencia Sanitaria:</label>
+      <input type="text" name="licencia_sanitaria" value="{{ proveedor.licencia_sanitaria }}" class="form-control" required>
+      <div class="form-text">Número de licencia sanitaria oficial para productos de mascotas.</div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-circle me-2"></i>Actualizar Proveedor
+      </button>
+      <a href="{% url 'ver_proveedores' %}" class="btn btn-secondary">
+        <i class="bi bi-x-circle me-2"></i>Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

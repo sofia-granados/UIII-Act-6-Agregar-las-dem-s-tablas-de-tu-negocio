@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Proveedor - PetShop{% endblock %}
+{% block content %}
+<div class="card card-soft p-4 text-center">
+  <h4 class="text-pet-primary mb-4">
+    <i class="bi bi-truck me-2"></i>¿Eliminar Proveedor?
+  </h4>
+  
+  <div class="alert alert-warning mb-4">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+  </div>
+
+  <div class="card bg-light p-3 mb-4">
+    <h5 class="mb-3">{{ proveedor.compañia }}</h5>
+    <div class="row text-start">
+      <div class="col-md-6">
+        <strong><i class="bi bi-telephone me-2"></i>Teléfono:</strong>
+        <p class="mb-2">{{ proveedor.telefono }}</p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-clock me-2"></i>Tiempo de Entrega:</strong>
+        <p class="mb-2">{{ proveedor.tiempo_entrega_dias }} días</p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-star me-2"></i>Especialidad:</strong>
+        <p class="mb-2">
+          {% if proveedor.especialidad_productos %}
+            {{ proveedor.especialidad_productos|title }}
+          {% else %}
+            <span class="text-muted">No especificada</span>
+          {% endif %}
+        </p>
+      </div>
+      <div class="col-md-6">
+        <strong><i class="bi bi-shield-check me-2"></i>Licencia Sanitaria:</strong>
+        <p class="mb-2">{{ proveedor.licencia_sanitaria }}</p>
+      </div>
+    </div>
+  </div>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="d-flex justify-content-center gap-3">
+      <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash me-2"></i>Confirmar Eliminación
+      </button>
+      <a href="{% url 'ver_proveedores' %}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}
